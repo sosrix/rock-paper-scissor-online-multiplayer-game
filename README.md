@@ -13,6 +13,7 @@ Rock Paper Scissor Witch React - Online MultiPlayer with users accounts
 - You can add friends and chat with them < we'll see. X
 - ... if any other feature cross my mind while making the game am gonna add it here.
 -
+- Last step : Cleaning the code!
 
 ---
 
