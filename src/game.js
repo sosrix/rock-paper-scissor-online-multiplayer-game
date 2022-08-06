@@ -1,4 +1,26 @@
+import { useEffect } from "react";
+import { useState } from "react";
 export default function Main() {
+  const [playerHand, SetPlayerHand] = useState("");
+
+  useEffect(() => {
+    const rockButton = document.getElementById("rockButton");
+    const paperButton = document.getElementById("paperButton");
+    const scissorButton = document.getElementById("scissorButton");
+
+    rockButton.addEventListener("click", () => handleHand("✊"));
+    paperButton.addEventListener("click", () => handleHand("✋"));
+    scissorButton.addEventListener("click", () => handleHand("✌"));
+  }, []);
+
+  function handleHand(hand) {
+    SetPlayerHand(hand);
+    document.getElementById(
+      "player1Sign"
+    ).textContent = ` player 1 sign ${hand}`;
+    console.log(hand);
+  }
+
   return (
     <div className="main">
       <div className="gameboard">
