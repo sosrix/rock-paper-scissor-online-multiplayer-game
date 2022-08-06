@@ -1,3 +1,29 @@
 .App {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  font-size: 32px;
+}
+.main {
+  margin: auto;
+}
+.game-state {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 100px;
+  border: 2px solid;
+}
+
+.game-container {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+  border: 2px solid;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 2px solid;
+  margin-top: 1px;
 }

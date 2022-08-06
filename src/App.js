@@ -1,9 +1,10 @@
 import "./App.css";
+import Main from "./game";
 
 function App() {
   return (
     <div className="App">
-      Rock-Paper-Scissor Multiplayer Online Game with users
+      <Main />
     </div>
   );
 }
