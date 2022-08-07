@@ -23,14 +23,6 @@ function LoginPage() {
     onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        playerID = currentUser.uid;
-        playerEmail = currentUser.email;
-        const db = getDatabase();
-        set(ref(db, "users/" + playerID), {
-          playerEmail,
-          playerID,
-          points: 0,
-        });
       } else {
         // Not logged in!
       }
@@ -44,7 +36,21 @@ function LoginPage() {
         signUpEmail,
         signUpPassword
       );
-      console.log(user);
+
+      // initializing players in the database after a successful creation of their account
+
+      if (user) {
+        playerID = user.user.uid;
+        playerEmail = user.user.email;
+        const db = getDatabase();
+        set(ref(db, "users/" + playerID), {
+          playerEmail,
+          playerID,
+          points: 0,
+        });
+      } else {
+        // Something went wrong while signing up - Try again!
+      }
     } catch (error) {
       console.log(error.message);
     }
