@@ -5,6 +5,8 @@ import {
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+
 import { auth } from "./firebase";
 
 function LoginPage() {
@@ -14,10 +16,24 @@ function LoginPage() {
   const [loginPassword, setLoginPassword] = useState("");
 
   const [user, setUser] = useState();
+  let playerID;
+  let playerEmail;
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      if (currentUser) {
+        setUser(currentUser);
+        playerID = currentUser.uid;
+        playerEmail = currentUser.email;
+        const db = getDatabase();
+        set(ref(db, "users/" + playerID), {
+          playerEmail,
+          playerID,
+          points: 0,
+        });
+      } else {
+        // Not logged in!
+      }
     });
   }, []);
 
