@@ -25,7 +25,7 @@ function LoginPage() {
     const starCountRef = ref(db, "users/" + playerID + "/points");
     onValue(starCountRef, (snapshot) => {
       const score = snapshot.val();
-      console.log("score", score);
+      console.log("points", score);
     });
   }
 
