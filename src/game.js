@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 export default function Game() {
+  const [stateOfGame, setStatofGame] = useState("On Going!");
   const [roundWinner, setRoundWinner] = useState("");
   const [playerScore, setplayerScore] = useState(0);
   const [computerScore, setComputerScore] = useState(0);
@@ -46,22 +47,36 @@ export default function Game() {
     }
   };
 
-  function isGameOver() {
-    return playerScore === 5 || computerScore === 5;
-  }
-
   function handleHand(hand) {
-    document.getElementById("playerSign").textContent = ` player sign ${hand}`;
-    playRound(hand, computerRandomSelection());
+    if (playerScore === 3 || computerScore === 3) {
+      // Make sure game ended, Nothing happens. disable fun!
 
-    setRoundWinner(winner);
+      isGameOver();
+    } else {
+      document.getElementById(
+        "playerSign"
+      ).textContent = ` player sign ${hand}`;
+      playRound(hand, computerRandomSelection());
+      setRoundWinner(winner);
+      isGameOver();
+    }
+  }
+  function isGameOver() {
+    if (playerScore === 3 || computerScore === 3) {
+      // Game ENDED
+      document.getElementById("rockButton").disabled = true;
+      document.getElementById("paperButton").disabled = true;
+      document.getElementById("scissorButton").disabled = true;
+      // Game ENDED
+      setStatofGame("GAME ENDED!");
+    }
   }
 
   return (
     <div className="main">
       <div className="gameboard">
         <p className="game-state" id="game-state">
-          State of the Game! {roundWinner}
+          State of the Game : {stateOfGame}|||| Round Winner : {roundWinner}
         </p>
         <div className="game-container">
           <div className="player-box">
