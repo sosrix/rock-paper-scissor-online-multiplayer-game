@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { getDatabase, ref, child, push, update } from "firebase/database";
 
 export default function Game() {
   const [stateOfGame, setStatofGame] = useState("On Going!");
@@ -8,6 +9,24 @@ export default function Game() {
   const [computerScore, setComputerScore] = useState(0);
 
   let winner;
+  function writeNewPost(uid, points) {
+    const db = getDatabase();
+
+    // A post entry.
+    const postData = {
+      points: points,
+    };
+
+    // Get a key for a new Post.
+    //   const newPostKey = push(child(ref(db), "posts")).key;
+
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    const updates = {};
+    updates["/users/" + uid + "/"] = postData;
+
+    return update(ref(db), updates);
+  }
+  writeNewPost("hDgXa1n3d4SjpOafQH3uuMlEoix2", 320);
 
   function playRound(playerSelection, computerSelection) {
     document.getElementById(
