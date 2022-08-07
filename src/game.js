@@ -1,24 +1,44 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { getDatabase, ref, child, push, update } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  child,
+  push,
+  update,
+  onValue,
+} from "firebase/database";
 
 export default function Game() {
   const [stateOfGame, setStatofGame] = useState("On Going!");
   const [roundWinner, setRoundWinner] = useState("");
   const [playerScore, setplayerScore] = useState(0);
   const [computerScore, setComputerScore] = useState(0);
-
+  const playerID = "hDgXa1n3d4SjpOafQH3uuMlEoix2";
+  const [previousScore, setPreviousScore] = useState(0);
   let winner;
-  function writeNewPost(uid, points) {
+
+  function getScore() {
     const db = getDatabase();
 
+    const starCountRef = ref(db, "users/" + playerID + "/points");
+
+    onValue(starCountRef, (snapshot) => {
+      setPreviousScore(snapshot.val());
+    });
+  }
+  useEffect(() => {
+    getScore();
+  });
+
+  function addToScore(uid, points) {
+    const db = getDatabase();
+
+    console.log(previousScore);
     // A post entry.
     const postData = {
-      points: points,
+      points: previousScore + points,
     };
-
-    // Get a key for a new Post.
-    //   const newPostKey = push(child(ref(db), "posts")).key;
 
     // Write the new post's data simultaneously in the posts list and the user's post list.
     const updates = {};
@@ -26,7 +46,6 @@ export default function Game() {
 
     return update(ref(db), updates);
   }
-  writeNewPost("hDgXa1n3d4SjpOafQH3uuMlEoix2", 320);
 
   function playRound(playerSelection, computerSelection) {
     document.getElementById(
@@ -90,10 +109,15 @@ export default function Game() {
       setStatofGame("GAME ENDED!");
     }
   }
+  function checkIfPlayerWon() {
+    // if player won add 3 points
+    addToScore(playerID, 3);
+  }
 
   return (
     <div className="main">
       <div className="gameboard">
+        <p>Your total points in this game : {previousScore}</p>
         <p className="game-state" id="game-state">
           State of the Game : {stateOfGame}|||| Round Winner : {roundWinner}
         </p>
