@@ -62,12 +62,14 @@ function LoginPage() {
       <h3> Sign In </h3>
       <input
         placeholder="Email..."
+        value={loginEmail}
         onChange={(event) => {
           setLoginEmail(event.target.value);
         }}
       />
       <input
         placeholder="Password..."
+        value={loginPassword}
         onChange={(event) => {
           setLoginPassword(event.target.value);
         }}

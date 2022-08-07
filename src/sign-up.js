@@ -61,19 +61,21 @@ export default function SignUp() {
       <h3> Sign Up </h3>
       <input
         placeholder="Email..."
+        value={signUpEmail}
         onChange={(event) => {
           setSignUpEmail(event.target.value);
         }}
       />
       <input
         placeholder="Password..."
+        value={signUpPassword}
         onChange={(event) => {
           setSignUpPassword(event.target.value);
         }}
       />
       <button onClick={register}>SIGN UP</button>{" "}
       <p>
-        You Already have an account ? <Link to="/SignIn">Sign In</Link>
+        Already a user ? <Link to="/SignIn">Sign In</Link>
       </p>
     </div>
   );
