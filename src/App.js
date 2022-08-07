@@ -27,7 +27,7 @@ function App() {
           path="/"
           element={
             <ProtectedRoute user={user}>
-              <Game />
+              <Game user={user} />
             </ProtectedRoute>
           }
         />

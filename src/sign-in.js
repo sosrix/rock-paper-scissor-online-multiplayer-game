@@ -2,11 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, ref, onValue } from "firebase/database";
 
 import { auth } from "./firebase";
@@ -53,10 +49,6 @@ function LoginPage() {
     }
   };
 
-  const logout = async () => {
-    await signOut(auth);
-  };
-
   return (
     <div className="sign-in">
       <h3> Sign In </h3>
@@ -76,7 +68,6 @@ function LoginPage() {
       />
 
       <button onClick={login}>LOGIN</button>
-      {user ? <button onClick={logout}> Sign Out </button> : ""}
       <p>
         You don't have an account ? <Link to="/SignUp">Sign Up</Link>
       </p>

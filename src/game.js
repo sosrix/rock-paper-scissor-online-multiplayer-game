@@ -1,15 +1,10 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import {
-  getDatabase,
-  ref,
-  child,
-  push,
-  update,
-  onValue,
-} from "firebase/database";
+import { getDatabase, ref, update, onValue } from "firebase/database";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "./firebase";
 
-export default function Game() {
+export default function Game(user) {
   const [stateOfGame, setStatofGame] = useState("On Going!");
   const [roundWinner, setRoundWinner] = useState("");
   const [playerScore, setplayerScore] = useState(0);
@@ -17,6 +12,14 @@ export default function Game() {
   const playerID = "hDgXa1n3d4SjpOafQH3uuMlEoix2";
   const [previousScore, setPreviousScore] = useState(0);
   let winner;
+
+  onAuthStateChanged(auth, (currentUser) => {
+    if (currentUser) {
+      user = currentUser;
+    } else {
+      user = null;
+    }
+  });
 
   function getScore() {
     const db = getDatabase();
@@ -113,11 +116,14 @@ export default function Game() {
     // if player won add 3 points
     addToScore(playerID, 3);
   }
-
+  const logout = async () => {
+    await signOut(auth);
+  };
   return (
     <div className="main">
       <div className="gameboard">
         <p>Your total points in this game : {previousScore}</p>
+        {user ? <button onClick={logout}> Sign Out </button> : ""}
         <p className="game-state" id="game-state">
           State of the Game : {stateOfGame}|||| Round Winner : {roundWinner}
         </p>
