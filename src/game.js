@@ -1,44 +1,79 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
-export default function Main() {
-  const [playerHand, SetPlayerHand] = useState("");
+export default function Game() {
+  const [roundWinner, setRoundWinner] = useState("");
+  const [playerScore, setplayerScore] = useState(0);
+  const [computerScore, setComputerScore] = useState(0);
 
-  useEffect(() => {
-    const rockButton = document.getElementById("rockButton");
-    const paperButton = document.getElementById("paperButton");
-    const scissorButton = document.getElementById("scissorButton");
+  let winner;
 
-    rockButton.addEventListener("click", () => handleHand("✊"));
-    paperButton.addEventListener("click", () => handleHand("✋"));
-    scissorButton.addEventListener("click", () => handleHand("✌"));
-  }, []);
+  function playRound(playerSelection, computerSelection) {
+    document.getElementById(
+      "computerSign"
+    ).textContent = ` computer sign ${computerSelection}`;
+
+    if (playerSelection === computerSelection) {
+      winner = "Draw!";
+    }
+    if (
+      (playerSelection === "ROCK" && computerSelection === "SCISSOR") ||
+      (playerSelection === "SCISSOR" && computerSelection === "PAPER") ||
+      (playerSelection === "PAPER" && computerSelection === "ROCK")
+    ) {
+      setplayerScore((playerScore) => ++playerScore);
+      winner = "Player";
+    }
+    if (
+      (computerSelection === "ROCK" && playerSelection === "SCISSOR") ||
+      (computerSelection === "SCISSOR" && playerSelection === "PAPER") ||
+      (computerSelection === "PAPER" && playerSelection === "ROCK")
+    ) {
+      setComputerScore((computerScore) => ++computerScore);
+      winner = "Computer";
+    }
+  }
+
+  const computerRandomSelection = () => {
+    let randomNumber = Math.floor(Math.random() * 3);
+    switch (randomNumber) {
+      case 0:
+        return "ROCK";
+      case 1:
+        return "PAPER";
+      case 2:
+        return "SCISSOR";
+    }
+  };
+
+  function isGameOver() {
+    return playerScore === 5 || computerScore === 5;
+  }
 
   function handleHand(hand) {
-    SetPlayerHand(hand);
-    document.getElementById(
-      "player1Sign"
-    ).textContent = ` player 1 sign ${hand}`;
-    console.log(hand);
+    document.getElementById("playerSign").textContent = ` player sign ${hand}`;
+    playRound(hand, computerRandomSelection());
+
+    setRoundWinner(winner);
   }
 
   return (
     <div className="main">
       <div className="gameboard">
         <p className="game-state" id="game-state">
-          State of the Game!
+          State of the Game! {roundWinner}
         </p>
         <div className="game-container">
           <div className="player-box">
-            <div id="player1Sign">[player 1 Sign]</div>
-            <p className="score" id="player1Score">
-              Player 1 points : 0
+            <div id="playerSign">[player Sign]</div>
+            <p className="score" id="playerScore">
+              Player points : {playerScore}
             </p>
           </div>
           <div className="player-box">
-            <div id="player2Sign">[player 2 Sign] </div>
-            <p className="score" id="player2Score">
-              Player 2 points : 0
+            <div id="computerSign">[computer Sign] </div>
+            <p className="score" id="computerScore">
+              computer points : {computerScore}
             </p>
           </div>
         </div>
@@ -46,13 +81,25 @@ export default function Main() {
 
       <div className="buttons">
         <p className="">Choose your Hand!</p>
-        <button className="btn" id="rockButton">
+        <button
+          className="btn"
+          id="rockButton"
+          onClick={() => handleHand("ROCK")}
+        >
           <div className="sign">✊</div>
         </button>
-        <button className="btn" id="paperButton">
+        <button
+          className="btn"
+          id="paperButton"
+          onClick={() => handleHand("PAPER")}
+        >
           <div className="sign">✋</div>
         </button>
-        <button className="btn" id="scissorButton">
+        <button
+          className="btn"
+          id="scissorButton"
+          onClick={() => handleHand("SCISSOR")}
+        >
           <div className="sign">✌</div>
         </button>
       </div>

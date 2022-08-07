@@ -27,3 +27,17 @@
   border: 2px solid;
   margin-top: 1px;
 }
+
+.btn {
+  width: 200px;
+  height: 120px;
+  font-size: 70px;
+  border: 2px solid #fff;
+  background-color: rgba(61, 61, 61, 0.478);
+}
+
+.btn:hover {
+  background-color: rgb(55, 4, 4);
+  border: 7px solid rgb(255, 255, 255);
+  cursor: pointer;
+}

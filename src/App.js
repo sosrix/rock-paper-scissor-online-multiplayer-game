@@ -1,11 +1,11 @@
 import "./App.css";
-import Main from "./game";
+import Game from "./game";
 import LoginPage from "./Sign-in-up";
 
 function App() {
   return (
     <div className="App">
-      <LoginPage />
+      <Game />
     </div>
   );
 }

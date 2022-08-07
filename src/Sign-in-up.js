@@ -1,3 +1,5 @@
+// Don't mind the code right now, gonna get cleaned up
+
 import { useState, useEffect } from "react";
 import {
   createUserWithEmailAndPassword,
