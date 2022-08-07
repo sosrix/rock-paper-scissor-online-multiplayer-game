@@ -5,7 +5,7 @@ import {
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, onValue } from "firebase/database";
 
 import { auth } from "./firebase";
 
@@ -19,10 +19,22 @@ function LoginPage() {
   let playerID;
   let playerEmail;
 
+  function getScore() {
+    const db = getDatabase();
+
+    const starCountRef = ref(db, "users/" + playerID + "/points");
+    onValue(starCountRef, (snapshot) => {
+      const score = snapshot.val();
+      console.log("score", score);
+    });
+  }
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        playerID = currentUser.uid;
+        getScore();
       } else {
         // Not logged in!
       }
