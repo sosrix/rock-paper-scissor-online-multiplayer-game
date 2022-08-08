@@ -23,7 +23,7 @@ function App() {
   return (
     <div className="App">
       <LoginPage />
-      <Routes>
+      {/* <Routes>
         <Route
           path="/"
           element={
@@ -48,7 +48,7 @@ function App() {
             </IsUserRedirect>
           }
         />
-      </Routes>
+      </Routes> */}
     </div>
   );
 }
