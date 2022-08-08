@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { IsUserRedirect, ProtectedRoute } from "./checkIfLogged";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase";
 
+import { auth } from "./firebase";
+import { IsUserRedirect, ProtectedRoute } from "./checkIfLogged";
 import Game from "./game";
 import LoginPage from "./sign-in";
 import SignUp from "./sign-up";

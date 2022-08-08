@@ -57,17 +57,19 @@ export default function SignUp() {
   };
 
   return (
-    <div className="sign-up">
-      <h3> Sign Up </h3>
+    <div className="sign">
+      <h1> Sign Up </h1>
       <input
-        placeholder="Email..."
+        type="email"
+        placeholder="Email"
         value={signUpEmail}
         onChange={(event) => {
           setSignUpEmail(event.target.value);
         }}
       />
       <input
-        placeholder="Password..."
+        type="password"
+        placeholder="Password"
         value={signUpPassword}
         onChange={(event) => {
           setSignUpPassword(event.target.value);
