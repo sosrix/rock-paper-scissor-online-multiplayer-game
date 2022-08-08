@@ -16,14 +16,13 @@ function App() {
     if (currentUser) {
       setUser(currentUser);
     } else {
-      setUser(null);
+      // setUser(null);
     }
   });
 
   return (
     <div className="App">
-      <LoginPage />
-      {/* <Routes>
+      <Routes>
         <Route
           path="/"
           element={
@@ -48,7 +47,7 @@ function App() {
             </IsUserRedirect>
           }
         />
-      </Routes> */}
+      </Routes>
     </div>
   );
 }

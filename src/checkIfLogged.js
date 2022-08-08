@@ -17,5 +17,5 @@ export function ProtectedRoute({ user, children }) {
     return children;
   }
 
-  return <Navigate to="/SignIn" />;
+  return <Navigate to="./SignIn" />;
 }
