@@ -1,4 +1,5 @@
-@import "https://fonts.googleapis.com/css?family=Caveat:400,700&display=swap&subset=cyrillic";
+@import url("https://fonts.googleapis.com/css?family=Caveat:400,700&display=swap&subset=cyrillic");
+@import url("https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap");
 
 body {
   background-image: url(https://unsplash.it/1400/799);
@@ -15,14 +16,12 @@ body {
   align-items: center;
 }
 .main {
-  padding: 10px;
-  font-family: "Caveat", cursive;
   width: min(90%, 900px);
   color: #ffffff;
   margin: auto;
   background-color: #c14642;
-
-  margin-top: 100px;
+  padding-bottom: 10px;
+  margin-top: 30px;
 }
 .avatar {
   border-radius: 50%;
@@ -35,30 +34,35 @@ body {
   height: 100%;
   width: 100%;
 }
+
 .gameboard {
+  font-family: "Caveat", cursive;
 }
+
 .userArea {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #c14642;
+  font-family: "Black Ops One", cursive;
+  background-color: #b03632;
   padding: 5px 0 0 5px;
 }
 .user {
   display: flex;
   align-items: center;
+
   gap: 10px;
 }
 .userMessage {
-  background-color: #201c22;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  border: 1px solid #3e363f;
+  background-color: #37a10e;
+  font-size: 20px;
   padding: 10px;
 }
 
 .singOut-btn {
   width: 100px;
   height: 30px;
+  font-family: "Caveat", cursive;
   font-size: 16px;
   font-weight: 700;
   background: #6e1613;
@@ -88,31 +92,51 @@ body {
   background-color: #201c22;
   width: min(70%, 500px);
   text-align: center;
+  font-size: 30px;
   padding: 12px;
   margin: auto;
 }
 .round-winner {
-  background-color: #14863e;
-  width: 320px;
-  margin: 0;
+  background-color: #0e4f27;
+  width: 80%;
+  text-align: center;
+  font-weight: 700;
+  margin: auto;
   padding: 12px;
 }
 .game-container {
   display: flex;
   justify-content: space-evenly;
-  background-color: #3e5d26;
   color: #e7e7e7;
   font-size: 24px;
+  margin: 20px;
+}
+.player-box {
+  width: 235px;
+  text-align: center;
   padding: 35px;
+  background-color: #09314b;
+}
+.playerSign {
+  font-size: 100px;
+  text-align: center;
+}
+.computerSign {
+  font-size: 100px;
+  text-align: center;
+}
+.round-score {
+  text-align: center;
+  font-family: "Black Ops One", cursive;
 }
 
-.buttons {
+.choices {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   color: #420000;
   font-size: 24px;
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
 .btn {
@@ -128,6 +152,10 @@ body {
   cursor: pointer;
 }
 
+.your-choice {
+  font-size: 24px;
+  font-weight: bold;
+}
 .restartGame-btn {
   width: 150px;
   font-family: "Caveat", cursive;

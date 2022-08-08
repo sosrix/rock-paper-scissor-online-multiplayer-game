@@ -5,7 +5,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 
 export default function Game(user) {
-  const [stateOfGame, setStatofGame] = useState("On Going!");
+  const [stateOfGame, setStatofGame] = useState("ON GOING!");
   const [roundWinner, setRoundWinner] = useState("");
   const [playerScore, setplayerScore] = useState(0);
   const [computerScore, setComputerScore] = useState(0);
@@ -51,28 +51,26 @@ export default function Game(user) {
   }
 
   function playRound(playerSelection, computerSelection) {
-    document.getElementById(
-      "computerSign"
-    ).textContent = ` computer sign ${computerSelection}`;
+    document.getElementById("computerSign").textContent = computerSelection;
 
     if (playerSelection === computerSelection) {
-      winner = "Draw!";
+      winner = "DRAW!";
     }
     if (
-      (playerSelection === "ROCK" && computerSelection === "SCISSOR") ||
-      (playerSelection === "SCISSOR" && computerSelection === "PAPER") ||
-      (playerSelection === "PAPER" && computerSelection === "ROCK")
+      (playerSelection === "✊" && computerSelection === "✌") ||
+      (playerSelection === "✌" && computerSelection === "✋") ||
+      (playerSelection === "✋" && computerSelection === "✊")
     ) {
       setplayerScore((playerScore) => ++playerScore);
-      winner = "Player";
+      winner = "YOU!";
     }
     if (
-      (computerSelection === "ROCK" && playerSelection === "SCISSOR") ||
-      (computerSelection === "SCISSOR" && playerSelection === "PAPER") ||
-      (computerSelection === "PAPER" && playerSelection === "ROCK")
+      (computerSelection === "✊" && playerSelection === "✌") ||
+      (computerSelection === "✌" && playerSelection === "✋") ||
+      (computerSelection === "✋" && playerSelection === "✊")
     ) {
       setComputerScore((computerScore) => ++computerScore);
-      winner = "Computer";
+      winner = "COMPUTER!";
     }
   }
 
@@ -80,11 +78,11 @@ export default function Game(user) {
     let randomNumber = Math.floor(Math.random() * 3);
     switch (randomNumber) {
       case 0:
-        return "ROCK";
+        return "✊";
       case 1:
-        return "PAPER";
+        return "✋";
       case 2:
-        return "SCISSOR";
+        return "✌";
     }
   };
 
@@ -94,9 +92,7 @@ export default function Game(user) {
 
       isGameOver();
     } else {
-      document.getElementById(
-        "playerSign"
-      ).textContent = ` player sign ${hand}`;
+      document.getElementById("playerSign").textContent = hand;
       playRound(hand, computerRandomSelection());
       setRoundWinner(winner);
       isGameOver();
@@ -113,11 +109,14 @@ export default function Game(user) {
     }
   }
   function resetGame() {
-    setStatofGame("On Going!");
+    setStatofGame("ON GOING!");
     setRoundWinner("");
     setplayerScore(0);
     setComputerScore(0);
     winner = "";
+    document.getElementById("playerSign").textContent = "🥊";
+    document.getElementById("computerSign").textContent = "🥊";
+
     document.getElementById("rockButton").disabled = false;
     document.getElementById("paperButton").disabled = false;
     document.getElementById("scissorButton").disabled = false;
@@ -143,54 +142,66 @@ export default function Game(user) {
             </div>
             <p>USERNAME</p>
             <button className="singOut-btn" onClick={logout}>
-              {" "}
-              Sign Out{" "}
+              Sign Out
             </button>
           </div>
-          <p className="userMessage">
-            Your total points in this game : {previousScore}
-          </p>
+          <p className="userMessage"> SCORE : {previousScore}</p>
         </div>
         <div className="state-Area">
-          <p className="game-state"> State of the Game : {stateOfGame}</p>
-          <p className="round-winner">Round Winner : {roundWinner}</p>
+          <p className="game-state">
+            {stateOfGame === "ON GOING!"
+              ? "For every win you get [3] points added on your total SCORE!"
+              : stateOfGame}
+          </p>
+          <p className="round-winner">
+            {roundWinner && roundWinner !== "DRAW!"
+              ? `${roundWinner} - WON THIS ROUND`
+              : roundWinner === "DRAW!"
+              ? "Opsie IT'S A DRAW"
+              : "START PLAYING!"}
+          </p>
         </div>
         <div className="game-container">
           <div className="player-box">
-            <div id="playerSign">[player Sign]</div>
+            <div className="playerSign" id="playerSign">
+              🥊
+            </div>
             <p className="score" id="playerScore">
-              Player points : {playerScore}
+              YOUR POINTS : <span className="round-score">{playerScore}</span>
             </p>
           </div>
           <div className="player-box">
-            <div id="computerSign">[computer Sign] </div>
+            <div className="computerSign" id="computerSign">
+              🥊
+            </div>
             <p className="score" id="computerScore">
-              computer points : {computerScore}
+              COMPUTER POINTS :{" "}
+              <span className="round-score">{computerScore}</span>
             </p>
           </div>
         </div>
       </div>
 
-      <div className="buttons">
-        <p className="">CHOOSE YOUR HAND!</p>
+      <div className="choices">
+        <p className="your-choice">CHOOSE YOUR HAND!</p>
         <button
           className="btn"
           id="rockButton"
-          onClick={() => handleHand("ROCK")}
+          onClick={() => handleHand("✊")}
         >
           <div className="handSign">✊</div>
         </button>
         <button
           className="btn"
           id="paperButton"
-          onClick={() => handleHand("PAPER")}
+          onClick={() => handleHand("✋")}
         >
           <div className="handSign">✋</div>
         </button>
         <button
           className="btn"
           id="scissorButton"
-          onClick={() => handleHand("SCISSOR")}
+          onClick={() => handleHand("✌")}
         >
           <div className="handSign">✌</div>
         </button>
