@@ -112,6 +112,17 @@ export default function Game(user) {
       setStatofGame("GAME ENDED!");
     }
   }
+  function resetGame() {
+    setStatofGame("On Going!");
+    setRoundWinner("");
+    setplayerScore(0);
+    setComputerScore(0);
+    winner = "";
+    document.getElementById("rockButton").disabled = false;
+    document.getElementById("paperButton").disabled = false;
+    document.getElementById("scissorButton").disabled = false;
+  }
+
   function checkIfPlayerWon() {
     // if player won add 3 points
     addToScore(playerID, 3);
@@ -122,11 +133,28 @@ export default function Game(user) {
   return (
     <div className="main">
       <div className="gameboard">
-        <p>Your total points in this game : {previousScore}</p>
-        {user ? <button onClick={logout}> Sign Out </button> : ""}
-        <p className="game-state" id="game-state">
-          State of the Game : {stateOfGame}|||| Round Winner : {roundWinner}
-        </p>
+        <div className="userArea">
+          <div className="user">
+            <div class="avatar">
+              <img
+                class="avatar__image"
+                src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375__340.png"
+              />
+            </div>
+            <p>USERNAME</p>
+            <button className="singOut-btn" onClick={logout}>
+              {" "}
+              Sign Out{" "}
+            </button>
+          </div>
+          <p className="userMessage">
+            Your total points in this game : {previousScore}
+          </p>
+        </div>
+        <div className="state-Area">
+          <p className="game-state"> State of the Game : {stateOfGame}</p>
+          <p className="round-winner">Round Winner : {roundWinner}</p>
+        </div>
         <div className="game-container">
           <div className="player-box">
             <div id="playerSign">[player Sign]</div>
@@ -144,29 +172,32 @@ export default function Game(user) {
       </div>
 
       <div className="buttons">
-        <p className="">Choose your Hand!</p>
+        <p className="">CHOOSE YOUR HAND!</p>
         <button
           className="btn"
           id="rockButton"
           onClick={() => handleHand("ROCK")}
         >
-          <div className="sign">✊</div>
+          <div className="handSign">✊</div>
         </button>
         <button
           className="btn"
           id="paperButton"
           onClick={() => handleHand("PAPER")}
         >
-          <div className="sign">✋</div>
+          <div className="handSign">✋</div>
         </button>
         <button
           className="btn"
           id="scissorButton"
           onClick={() => handleHand("SCISSOR")}
         >
-          <div className="sign">✌</div>
+          <div className="handSign">✌</div>
         </button>
       </div>
+      <button className="restartGame-btn" onClick={() => resetGame()}>
+        RESET GAME!
+      </button>
     </div>
   );
 }

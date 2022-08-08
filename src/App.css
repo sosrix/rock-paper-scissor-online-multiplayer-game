@@ -1,9 +1,10 @@
 @import "https://fonts.googleapis.com/css?family=Caveat:400,700&display=swap&subset=cyrillic";
 
 body {
-  font-family: "Caveat", cursive;
   background-image: url(https://unsplash.it/1400/799);
   background-position: center;
+  font-family: "Caveat", cursive;
+
   background-repeat: no-repeat;
   background-size: cover;
   color: #3e363f;
@@ -11,31 +12,106 @@ body {
   overflow: hidden;
 }
 .App {
-  display: flex;
   align-items: center;
 }
 .main {
+  padding: 10px;
+  font-family: "Caveat", cursive;
+  width: min(90%, 900px);
+  color: #ffffff;
   margin: auto;
-}
-.game-state {
-  display: flex;
-  justify-content: space-evenly;
+  background-color: #c14642;
+
   margin-top: 100px;
-  border: 2px solid;
+}
+.avatar {
+  border-radius: 50%;
+  height: 64px;
+  width: 64px;
 }
 
-.game-container {
+.avatar__image {
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+}
+.gameboard {
+}
+.userArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #c14642;
+  padding: 5px 0 0 5px;
+}
+.user {
   display: flex;
   align-items: center;
-  gap: 100px;
-  border: 2px solid;
+  gap: 10px;
+}
+.userMessage {
+  background-color: #201c22;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  border: 1px solid #3e363f;
+  padding: 10px;
+}
+
+.singOut-btn {
+  width: 100px;
+  height: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  background: #6e1613;
+  color: white;
+  border: 1px solid #302b2b;
+  border-radius: 3px;
+  margin-left: 10px;
+}
+
+.singOut-btn:hover {
+  transform: scale(1.05);
+  background-color: #4a0d0b;
+}
+
+.singOut-btn:active {
+  transform: scale(0.99);
+}
+
+.state-Area {
+  display: grid;
+  gap: 30px;
+  color: #e7e7e7;
+  font-size: 24px;
+  margin-top: 40px;
+}
+.game-state {
+  background-color: #201c22;
+  width: min(70%, 500px);
+  text-align: center;
+  padding: 12px;
+  margin: auto;
+}
+.round-winner {
+  background-color: #14863e;
+  width: 320px;
+  margin: 0;
+  padding: 12px;
+}
+.game-container {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #3e5d26;
+  color: #e7e7e7;
+  font-size: 24px;
+  padding: 35px;
 }
 
 .buttons {
   display: flex;
-  align-items: center;
   justify-content: space-evenly;
-  border: 2px solid;
+  align-items: center;
+  color: #420000;
+  font-size: 24px;
   margin-top: 1px;
 }
 
@@ -43,17 +119,38 @@ body {
   width: 200px;
   height: 120px;
   font-size: 70px;
-  border: 2px solid #fff;
+  border: none;
   background-color: rgba(61, 61, 61, 0.478);
 }
 
 .btn:hover {
   background-color: rgb(55, 4, 4);
-  border: 7px solid rgb(255, 255, 255);
   cursor: pointer;
 }
 
-button {
+.restartGame-btn {
+  width: 150px;
+  font-family: "Caveat", cursive;
+  height: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  background: #cce048;
+  color: rgb(42, 0, 0);
+  border: none;
+  border-radius: 3px;
+  margin-left: 10px;
+}
+
+.restartGame-btn:hover {
+  transform: scale(1.05);
+  background-color: #9d2a0b;
+}
+
+.restartGame-btn:active {
+  transform: scale(0.99);
+}
+
+.sign > button {
   width: 250px;
   height: 60px;
   font-size: 16px;
@@ -65,15 +162,15 @@ button {
   margin: auto;
 }
 
-button:hover {
+.sign > button:hover {
   transform: scale(1.05);
 }
 
-button:active {
+.sign > button:active {
   transform: scale(0.99);
 }
 
-input {
+.sign > input {
   height: 70px;
   border: 4px solid #323232;
   background: #302b2b;
@@ -82,13 +179,14 @@ input {
   padding-left: 16px;
   color: #f6f2d6;
 }
-::placeholder {
+.sign > ::placeholder {
   color: #616059;
   opacity: 1;
 }
 .sign {
   display: grid;
   gap: 20px;
+  font-family: "Caveat", cursive;
   align-items: center;
   text-align: center;
   font-size: 28px;
