@@ -4,20 +4,19 @@ import { getDatabase, ref, update, onValue } from "firebase/database";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 
-export default function Game(user) {
+export default function Game({ user }) {
   const [stateOfGame, setStatofGame] = useState("ON GOING!");
   const [roundWinner, setRoundWinner] = useState("");
   const [playerScore, setplayerScore] = useState(0);
   const [computerScore, setComputerScore] = useState(0);
-  const playerID = "hDgXa1n3d4SjpOafQH3uuMlEoix2";
+  const [playerID, setPlayerID] = useState();
   const [previousScore, setPreviousScore] = useState(0);
   let winner;
-
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
       user = currentUser;
     } else {
-      user = null;
+      setPlayerID(null);
     }
   });
 
@@ -32,9 +31,11 @@ export default function Game(user) {
   }
   useEffect(() => {
     getScore();
+
+    console.log("runned getScore");
   });
 
-  function addToScore(uid, points) {
+  function addToScore(playerID, points) {
     const db = getDatabase();
 
     console.log(previousScore);
@@ -45,7 +46,7 @@ export default function Game(user) {
 
     // Write the new post's data simultaneously in the posts list and the user's post list.
     const updates = {};
-    updates["/users/" + uid + "/"] = postData;
+    updates["/users/" + playerID + "/"] = postData;
 
     return update(ref(db), updates);
   }
@@ -122,10 +123,19 @@ export default function Game(user) {
     document.getElementById("scissorButton").disabled = false;
   }
 
-  function checkIfPlayerWon() {
-    // if player won add 3 points
-    addToScore(playerID, 3);
-  }
+  useEffect(() => {
+    setPlayerID(user.uid);
+    if (playerScore === 3) {
+      isGameOver();
+      addToScore(playerID, 3);
+      console.log("You won! Added 3 to score");
+    }
+    if (computerScore === 3) {
+      isGameOver();
+      console.log("You lost!");
+    }
+  }, [playerScore, computerScore]);
+
   const logout = async () => {
     await signOut(auth);
   };
@@ -134,13 +144,13 @@ export default function Game(user) {
       <div className="gameboard">
         <div className="userArea">
           <div className="user">
-            <div class="avatar">
+            <div className="avatar">
               <img
-                class="avatar__image"
+                className="avatar__image"
                 src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375__340.png"
               />
             </div>
-            <p>USERNAME</p>
+            <p>{user ? user.email.toUpperCase() : "USERNAME?"}</p>
             <button className="singOut-btn" onClick={logout}>
               Sign Out
             </button>

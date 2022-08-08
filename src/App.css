@@ -55,8 +55,15 @@ body {
 }
 .userMessage {
   background-color: #37a10e;
-  font-size: 20px;
+  font-size: 21px;
+  border: none;
+  border-radius: 5px;
   padding: 10px;
+  margin-right: 10px;
+}
+.error-message {
+  color: #b8d000;
+  background-color: #a10e13;
 }
 
 .singOut-btn {
@@ -89,10 +96,15 @@ body {
   margin-top: 40px;
 }
 .game-state {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   background-color: #201c22;
   width: min(70%, 500px);
+  height: 70px;
   text-align: center;
   font-size: 30px;
+  border-radius: 5px;
   padding: 12px;
   margin: auto;
 }
@@ -100,6 +112,7 @@ body {
   background-color: #0e4f27;
   width: 80%;
   text-align: center;
+  border-radius: 5px;
   font-weight: 700;
   margin: auto;
   padding: 12px;
@@ -116,6 +129,7 @@ body {
   text-align: center;
   padding: 35px;
   background-color: #09314b;
+  border-radius: 10px;
 }
 .playerSign {
   font-size: 100px;
@@ -140,10 +154,13 @@ body {
 }
 
 .btn {
-  width: 200px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   font-size: 70px;
-  border: none;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #420000;
+  border-radius: 50%;
   background-color: rgba(61, 61, 61, 0.478);
 }
 
@@ -155,6 +172,9 @@ body {
 .your-choice {
   font-size: 24px;
   font-weight: bold;
+  border: 2px dotted #09314b;
+  border-radius: 5px;
+  padding: 10px;
 }
 .restartGame-btn {
   width: 150px;

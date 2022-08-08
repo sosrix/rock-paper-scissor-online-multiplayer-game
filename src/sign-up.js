@@ -12,6 +12,7 @@ import { auth } from "./firebase";
 export default function SignUp() {
   const [signUpEmail, setSignUpEmail] = useState("");
   const [signUpPassword, setSignUpPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("Not Logged!");
   const [user, setUser] = useState();
 
   let playerID;
@@ -23,7 +24,7 @@ export default function SignUp() {
         setUser(currentUser);
         playerID = currentUser.uid;
       } else {
-        // Not logged in!
+        console.log("Something went wrong");
       }
     });
   }, []);
@@ -53,12 +54,18 @@ export default function SignUp() {
       }
     } catch (error) {
       console.log(error.message);
+      setErrorMessage(error.message);
     }
   };
 
   return (
     <div className="sign">
       <h1> Sign Up </h1>
+      {errorMessage !== "Not Logged!" ? (
+        <p className="error-message">{errorMessage}</p>
+      ) : (
+        "You're Not Logged! Try Signing Up!"
+      )}
       <input
         type="email"
         placeholder="Email"

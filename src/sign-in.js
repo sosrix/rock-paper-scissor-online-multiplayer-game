@@ -9,14 +9,16 @@ import { auth } from "./firebase";
 function LoginPage() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("Not Logged!");
   const [user, setUser] = useState();
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        console.log(user);
       } else {
-        // Something went wrong!
+        console.log("Something went wrong!");
       }
     });
   }, []);
@@ -31,12 +33,18 @@ function LoginPage() {
       console.log(user);
     } catch (error) {
       console.log(error.message);
+      setErrorMessage(error.message);
     }
   };
 
   return (
     <div className="sign">
       <h1> Sign In </h1>
+      {errorMessage !== "Not Logged!" ? (
+        <p className="error-message">{errorMessage}</p>
+      ) : (
+        "You're Not Logged! Try Signing In!"
+      )}
       <input
         type="email"
         placeholder="Email"
