@@ -11,7 +11,9 @@ export default function Game({ user }) {
   const [computerScore, setComputerScore] = useState(0);
   const [playerID, setPlayerID] = useState();
   const [previousScore, setPreviousScore] = useState(0);
-  let winner;
+  const [popup, setPopup] = useState("none");
+  const [winner, setWinner] = useState("");
+
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
       user = currentUser;
@@ -111,12 +113,12 @@ export default function Game({ user }) {
   function resetGame() {
     setStatofGame("ON GOING!");
     setRoundWinner("");
+    setWinner("");
+    setPopup("none");
     setplayerScore(0);
     setComputerScore(0);
-    winner = "";
     document.getElementById("playerSign").textContent = "🥊";
     document.getElementById("computerSign").textContent = "🥊";
-
     document.getElementById("rockButton").disabled = false;
     document.getElementById("paperButton").disabled = false;
     document.getElementById("scissorButton").disabled = false;
@@ -127,18 +129,21 @@ export default function Game({ user }) {
     if (playerScore === 3) {
       isGameOver();
       addToScore(playerID, 3);
-      console.log("You won! Added 3 to score");
+      setWinner("YOU WON! +[3] points added to your SCORE!");
+      setPopup("block");
     }
     if (computerScore === 3) {
       isGameOver();
       addToScore(playerID, -3);
-      console.log("Minus 3 - You lost!");
+      setWinner("YOU LOST! -[3] points taken from your SCORE!");
+      setPopup("block");
     }
   }, [playerScore, computerScore]);
 
   const logout = async () => {
     await signOut(auth);
   };
+
   return (
     <div className="main">
       <div className="gameboard">
@@ -220,6 +225,18 @@ export default function Game({ user }) {
       <button className="restartGame-btn" onClick={() => resetGame()}>
         RESET GAME!
       </button>
+
+      <div className="modal" style={{ display: popup }}>
+        <div className="modal-content">
+          <span className="close" onClick={() => setPopup("none")}>
+            &times;
+          </span>
+          <p>{winner}</p>
+          <button className="restartGame-btn" onClick={() => resetGame()}>
+            RESET GAME!
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
