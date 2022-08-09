@@ -62,8 +62,9 @@ body {
   margin-right: 10px;
 }
 .error-message {
-  color: #b8d000;
-  background-color: #a10e13;
+  color: #d00000;
+  margin: 0;
+  padding: 0;
 }
 
 .singOut-btn {
