@@ -94,9 +94,17 @@ export default function Game({ user }) {
   };
 
   function handleHand(hand) {
-    setFighting(true);
-    setTimeout(() => {
-      setFighting(false);
+    while (!fighting) {
+      setFighting(true);
+      document.getElementById("rockButton").disabled = true;
+      document.getElementById("paperButton").disabled = true;
+      document.getElementById("scissorButton").disabled = true;
+      setTimeout(() => {
+        document.getElementById("rockButton").disabled = false;
+        document.getElementById("paperButton").disabled = false;
+        document.getElementById("scissorButton").disabled = false;
+        setFighting(false);
+      }, 700);
       if (playerScore === 3 || computerScore === 3) {
         // Make sure game ended, Nothing happens. disable fun!
         isGameOver();
@@ -105,7 +113,7 @@ export default function Game({ user }) {
         playRound(hand, computerRandomSelection());
         setRoundWinner(winner);
       }
-    }, 1000);
+    }
   }
   function isGameOver() {
     if (playerScore === 3 || computerScore === 3) {
@@ -118,17 +126,21 @@ export default function Game({ user }) {
     }
   }
   function resetGame() {
-    setStatofGame("ON GOING!");
-    setRoundWinner("");
-    setWinner("");
-    setPopup("none");
-    setplayerScore(0);
-    setComputerScore(0);
-    document.getElementById("playerSign").textContent = "🥊";
-    document.getElementById("computerSign").textContent = "🥊";
-    document.getElementById("rockButton").disabled = false;
-    document.getElementById("paperButton").disabled = false;
-    document.getElementById("scissorButton").disabled = false;
+    setFighting(true);
+    setTimeout(() => {
+      setStatofGame("ON GOING!");
+      setRoundWinner("");
+      setWinner("");
+      setPopup("none");
+      setplayerScore(0);
+      setComputerScore(0);
+      document.getElementById("playerSign").textContent = "🥊";
+      document.getElementById("computerSign").textContent = "🥊";
+      document.getElementById("rockButton").disabled = false;
+      document.getElementById("paperButton").disabled = false;
+      document.getElementById("scissorButton").disabled = false;
+      setFighting(false);
+    }, 1000);
   }
 
   useEffect(() => {
