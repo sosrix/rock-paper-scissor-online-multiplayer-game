@@ -7,6 +7,8 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
+
+import LoaderWrapper from "./loaderwrapper";
 import { auth } from "./firebase";
 
 export default function SignUp() {
@@ -59,33 +61,38 @@ export default function SignUp() {
   };
 
   return (
-    <div className="sign">
-      <h1> Sign Up </h1>
-      {errorMessage !== "Not Logged!" ? (
-        <p className="error-message">{errorMessage}</p>
-      ) : (
-        "You're Not Logged! Try Signing Up!"
-      )}
-      <input
-        type="email"
-        placeholder="Email"
-        value={signUpEmail}
-        onChange={(event) => {
-          setSignUpEmail(event.target.value);
-        }}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={signUpPassword}
-        onChange={(event) => {
-          setSignUpPassword(event.target.value);
-        }}
-      />
-      <button onClick={register}>SIGN UP</button>{" "}
-      <p>
-        Already a user ? <Link to="/SignIn">Sign In</Link>
-      </p>
-    </div>
+    <>
+      <LoaderWrapper>
+        <LoaderWrapper.loadingAnimation />
+      </LoaderWrapper>
+      <div className="sign">
+        <h1> Sign Up </h1>
+        {errorMessage !== "Not Logged!" ? (
+          <p className="error-message">{errorMessage}</p>
+        ) : (
+          "You're Not Logged! Try Signing Up!"
+        )}
+        <input
+          type="email"
+          placeholder="Email"
+          value={signUpEmail}
+          onChange={(event) => {
+            setSignUpEmail(event.target.value);
+          }}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={signUpPassword}
+          onChange={(event) => {
+            setSignUpPassword(event.target.value);
+          }}
+        />
+        <button onClick={register}>SIGN UP</button>{" "}
+        <p>
+          Already a user ? <Link to="/SignIn">Sign In</Link>
+        </p>
+      </div>
+    </>
   );
 }

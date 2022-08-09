@@ -8,6 +8,7 @@ import Game from "./game";
 import LoginPage from "./sign-in";
 import SignUp from "./sign-up";
 import "./App.css";
+import LoaderWrapper from "./loaderwrapper";
 
 function App() {
   const [user, setUser] = useState(null);

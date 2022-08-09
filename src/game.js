@@ -2,11 +2,14 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { getDatabase, ref, update, onValue } from "firebase/database";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+
+import LoaderWrapper from "./loaderwrapper";
 import { auth } from "./firebase";
 
 export default function Game({ user }) {
   const [stateOfGame, setStatofGame] = useState("ON GOING!");
   const [roundWinner, setRoundWinner] = useState("");
+  const [fighting, setFighting] = useState(false);
   const [playerScore, setplayerScore] = useState(0);
   const [computerScore, setComputerScore] = useState(0);
   const [playerID, setPlayerID] = useState();
@@ -91,14 +94,18 @@ export default function Game({ user }) {
   };
 
   function handleHand(hand) {
-    if (playerScore === 3 || computerScore === 3) {
-      // Make sure game ended, Nothing happens. disable fun!
-      isGameOver();
-    } else {
-      document.getElementById("playerSign").textContent = hand;
-      playRound(hand, computerRandomSelection());
-      setRoundWinner(winner);
-    }
+    setFighting(true);
+    setTimeout(() => {
+      setFighting(false);
+      if (playerScore === 3 || computerScore === 3) {
+        // Make sure game ended, Nothing happens. disable fun!
+        isGameOver();
+      } else {
+        document.getElementById("playerSign").textContent = hand;
+        playRound(hand, computerRandomSelection());
+        setRoundWinner(winner);
+      }
+    }, 1000);
   }
   function isGameOver() {
     if (playerScore === 3 || computerScore === 3) {
@@ -145,98 +152,102 @@ export default function Game({ user }) {
   };
 
   return (
-    <div className="main">
-      <div className="gameboard">
-        <div className="userArea">
-          <div className="user">
-            <div className="avatar">
-              <img
-                className="avatar__image"
-                alt="myAvatar"
-                src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375__340.png"
-              />
+    <>
+      <LoaderWrapper>
+        <LoaderWrapper.loadingAnimation />
+      </LoaderWrapper>
+      <div className="main">
+        <div className="gameboard">
+          <div className="userArea">
+            <div className="user">
+              <div className="avatar">
+                <img
+                  className="avatar__image"
+                  alt="myAvatar"
+                  src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375__340.png"
+                />
+              </div>
+              <p>{user ? user.email.toUpperCase() : "USERNAME?"}</p>
+              <button className="singOut-btn" onClick={logout}>
+                Sign Out
+              </button>
             </div>
-            <p>{user ? user.email.toUpperCase() : "USERNAME?"}</p>
-            <button className="singOut-btn" onClick={logout}>
-              Sign Out
-            </button>
+            <p className="userMessage"> SCORE : {previousScore}</p>
           </div>
-          <p className="userMessage"> SCORE : {previousScore}</p>
-        </div>
-        <div className="state-Area">
-          <p className="game-state">
-            {stateOfGame === "ON GOING!"
-              ? "For every win you get +[3] points added on your total SCORE! and lose -[3] point if you lost"
-              : stateOfGame}
-          </p>
-          <p className="round-winner">
-            {roundWinner && roundWinner !== "DRAW!"
-              ? `${roundWinner} - WON THIS ROUND`
-              : roundWinner === "DRAW!"
-              ? "Opsie IT'S A DRAW"
-              : "START PLAYING!"}
-          </p>
-        </div>
-        <div className="game-container">
-          <div className="player-box">
-            <div className="playerSign" id="playerSign">
-              🥊
-            </div>
-            <p className="score" id="playerScore">
-              YOUR POINTS : <span className="round-score">{playerScore}</span>
+          <div className="state-Area">
+            <p className="game-state">
+              {stateOfGame === "ON GOING!"
+                ? "For every win you get +[3] points added on your total SCORE! and lose -[3] point if you lost"
+                : stateOfGame}
+            </p>
+            <p className="round-winner">
+              {roundWinner && roundWinner !== "DRAW!"
+                ? `${roundWinner} - WON THIS ROUND`
+                : roundWinner === "DRAW!"
+                ? "Opsie IT'S A DRAW"
+                : "START PLAYING!"}
             </p>
           </div>
-          <div className="player-box">
-            <div className="computerSign" id="computerSign">
-              🥊
+          {fighting ? <LoaderWrapper.loadingAnimation /> : ""}
+          <div className="game-container">
+            <div className="player-box">
+              <div className="playerSign" id="playerSign">
+                🥊
+              </div>
+              <p className="score" id="playerScore">
+                YOUR POINTS : <span className="round-score">{playerScore}</span>
+              </p>
             </div>
-            <p className="score" id="computerScore">
-              COMPUTER POINTS :{" "}
-              <span className="round-score">{computerScore}</span>
-            </p>
+            <div className="player-box">
+              <div className="computerSign" id="computerSign">
+                🥊
+              </div>
+              <p className="score" id="computerScore">
+                COMPUTER POINTS :{" "}
+                <span className="round-score">{computerScore}</span>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="choices">
-        <p className="your-choice">CHOOSE YOUR HAND!</p>
-        <button
-          className="btn"
-          id="rockButton"
-          onClick={() => handleHand("✊")}
-        >
-          <div className="handSign">✊</div>
-        </button>
-        <button
-          className="btn"
-          id="paperButton"
-          onClick={() => handleHand("✋")}
-        >
-          <div className="handSign">✋</div>
-        </button>
-        <button
-          className="btn"
-          id="scissorButton"
-          onClick={() => handleHand("✌")}
-        >
-          <div className="handSign">✌</div>
-        </button>
-      </div>
-      <button className="restartGame-btn" onClick={() => resetGame()}>
-        RESET GAME!
-      </button>
-
-      <div className="modal" style={{ display: popup }}>
-        <div className="modal-content">
-          <span className="close" onClick={() => setPopup("none")}>
-            &times;
-          </span>
-          <p>{winner}</p>
-          <button className="restartGame-btn" onClick={() => resetGame()}>
-            RESET GAME!
+        <div className="choices">
+          <p className="your-choice">CHOOSE YOUR HAND!</p>
+          <button
+            className="btn"
+            id="rockButton"
+            onClick={() => handleHand("✊")}
+          >
+            <div className="handSign">✊</div>
+          </button>
+          <button
+            className="btn"
+            id="paperButton"
+            onClick={() => handleHand("✋")}
+          >
+            <div className="handSign">✋</div>
+          </button>
+          <button
+            className="btn"
+            id="scissorButton"
+            onClick={() => handleHand("✌")}
+          >
+            <div className="handSign">✌</div>
           </button>
         </div>
+        <button className="restartGame-btn" onClick={() => resetGame()}>
+          RESET GAME!
+        </button>
+        <div className="modal" style={{ display: popup }}>
+          <div className="modal-content">
+            <span className="close" onClick={() => setPopup("none")}>
+              &times;
+            </span>
+            <p>{winner}</p>
+            <button className="restartGame-btn" onClick={() => resetGame()}>
+              RESET GAME!
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
