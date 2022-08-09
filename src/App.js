@@ -16,7 +16,7 @@ function App() {
     if (currentUser) {
       setUser(currentUser);
     } else {
-      // setUser(null);
+      setUser(null);
     }
   });
 

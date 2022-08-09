@@ -43,12 +43,13 @@ export default function Game({ user }) {
     const postData = {
       points: previousScore + points,
     };
+    if (postData.points >= 0) {
+      // Write the new post's data simultaneously in the posts list and the user's post list.
+      const updates = {};
+      updates["/users/" + playerID + "/"] = postData;
 
-    // Write the new post's data simultaneously in the posts list and the user's post list.
-    const updates = {};
-    updates["/users/" + playerID + "/"] = postData;
-
-    return update(ref(db), updates);
+      return update(ref(db), updates);
+    }
   }
 
   function playRound(playerSelection, computerSelection) {
@@ -90,13 +91,11 @@ export default function Game({ user }) {
   function handleHand(hand) {
     if (playerScore === 3 || computerScore === 3) {
       // Make sure game ended, Nothing happens. disable fun!
-
       isGameOver();
     } else {
       document.getElementById("playerSign").textContent = hand;
       playRound(hand, computerRandomSelection());
       setRoundWinner(winner);
-      isGameOver();
     }
   }
   function isGameOver() {
@@ -132,7 +131,8 @@ export default function Game({ user }) {
     }
     if (computerScore === 3) {
       isGameOver();
-      console.log("You lost!");
+      addToScore(playerID, -3);
+      console.log("Minus 3 - You lost!");
     }
   }, [playerScore, computerScore]);
 
@@ -147,6 +147,7 @@ export default function Game({ user }) {
             <div className="avatar">
               <img
                 className="avatar__image"
+                alt="myAvatar"
                 src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375__340.png"
               />
             </div>
@@ -160,7 +161,7 @@ export default function Game({ user }) {
         <div className="state-Area">
           <p className="game-state">
             {stateOfGame === "ON GOING!"
-              ? "For every win you get [3] points added on your total SCORE!"
+              ? "For every win you get +[3] points added on your total SCORE! and lose -[3] point if you lost"
               : stateOfGame}
           </p>
           <p className="round-winner">
