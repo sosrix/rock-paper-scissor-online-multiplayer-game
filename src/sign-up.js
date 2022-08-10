@@ -1,6 +1,6 @@
 // Don't mind the code right now, gonna get cleaned up
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
@@ -15,29 +15,28 @@ export default function SignUp() {
   const [signUpEmail, setSignUpEmail] = useState("");
   const [signUpPassword, setSignUpPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("Not Logged!");
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
 
   let playerID;
   let playerEmail;
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        playerID = currentUser.uid;
-      } else {
-        console.log("Something went wrong");
-      }
-    });
-  }, []);
-
   const register = async () => {
+    setUser("Loading");
     try {
       const user = await createUserWithEmailAndPassword(
         auth,
         signUpEmail,
         signUpPassword
       );
+      onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
+          setUser(currentUser);
+          playerID = currentUser.uid;
+        } else {
+          setUser(null);
+          console.log("Something went wrong");
+        }
+      });
 
       // initializing players in the database after a successful creation of their account
 
@@ -57,6 +56,7 @@ export default function SignUp() {
     } catch (error) {
       console.log(error.message);
       setErrorMessage(error.message);
+      setUser(null);
     }
   };
 
@@ -67,6 +67,7 @@ export default function SignUp() {
       </LoaderWrapper>
       <div className="sign">
         <h1> Sign Up </h1>
+        {user === "Loading" ? <LoaderWrapper.loadingAnimation /> : ""}
         {errorMessage !== "Not Logged!" ? (
           <p className="error-message">{errorMessage}</p>
         ) : (

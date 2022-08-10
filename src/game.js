@@ -15,7 +15,7 @@ export default function Game({ user }) {
   const [playerID, setPlayerID] = useState();
   const [previousScore, setPreviousScore] = useState(0);
   const [popup, setPopup] = useState("none");
-  const [winner, setWinner] = useState("");
+  const [winner, setWinner] = useState("WHO?");
 
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
@@ -58,10 +58,11 @@ export default function Game({ user }) {
   }
 
   function playRound(playerSelection, computerSelection) {
-    document.getElementById("computerSign").textContent = computerSelection;
+    const cmpHand = document.getElementById("computerSign");
+    cmpHand.textContent = computerSelection;
 
     if (playerSelection === computerSelection) {
-      winner = "DRAW!";
+      setRoundWinner("DRAW!");
     }
     if (
       (playerSelection === "✊" && computerSelection === "✌") ||
@@ -69,7 +70,7 @@ export default function Game({ user }) {
       (playerSelection === "✋" && computerSelection === "✊")
     ) {
       setplayerScore((playerScore) => ++playerScore);
-      winner = "YOU!";
+      setRoundWinner("YOU!");
     }
     if (
       (computerSelection === "✊" && playerSelection === "✌") ||
@@ -77,7 +78,7 @@ export default function Game({ user }) {
       (computerSelection === "✋" && playerSelection === "✊")
     ) {
       setComputerScore((computerScore) => ++computerScore);
-      winner = "COMPUTER!";
+      setRoundWinner("COMPUTER!");
     }
   }
 
@@ -94,7 +95,7 @@ export default function Game({ user }) {
   };
 
   function handleHand(hand) {
-    while (!fighting) {
+    if (!fighting) {
       setFighting(true);
       document.getElementById("rockButton").disabled = true;
       document.getElementById("paperButton").disabled = true;
@@ -111,7 +112,6 @@ export default function Game({ user }) {
       } else {
         document.getElementById("playerSign").textContent = hand;
         playRound(hand, computerRandomSelection());
-        setRoundWinner(winner);
       }
     }
   }
@@ -130,7 +130,7 @@ export default function Game({ user }) {
     setTimeout(() => {
       setStatofGame("ON GOING!");
       setRoundWinner("");
-      setWinner("");
+      setWinner("WHO?");
       setPopup("none");
       setplayerScore(0);
       setComputerScore(0);
@@ -255,7 +255,7 @@ export default function Game({ user }) {
             </span>
             <p>{winner}</p>
             <button className="restartGame-btn" onClick={() => resetGame()}>
-              RESET GAME!
+              PLAY AGAIN!
             </button>
           </div>
         </div>

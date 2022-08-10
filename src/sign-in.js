@@ -1,6 +1,6 @@
 // Don't mind the code right now, gonna get cleaned up
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
@@ -11,29 +11,28 @@ function LoginPage() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("Not Logged!");
-  const [user, setUser] = useState();
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        console.log(user);
-      } else {
-        console.log("Something went wrong!");
-      }
-    });
-  }, []);
+  const [user, setUser] = useState(null);
 
   const login = async () => {
+    setUser("Loading");
     try {
-      const user = await signInWithEmailAndPassword(
+      const userLogin = await signInWithEmailAndPassword(
         auth,
         loginEmail,
         loginPassword
       );
-      console.log(user);
+      onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
+          setUser(currentUser);
+          console.log(user);
+        } else {
+          setUser(null);
+          console.log("Something went wrong!");
+        }
+      });
     } catch (error) {
       console.log(error.message);
+      setUser(null);
       setErrorMessage(error.message);
     }
   };
@@ -44,6 +43,7 @@ function LoginPage() {
         <LoaderWrapper.loadingAnimation />
       </LoaderWrapper>
       <div className="sign">
+        {user === "Loading" ? <LoaderWrapper.loadingAnimation /> : ""}
         <h1> Sign In </h1>
         {errorMessage !== "Not Logged!" ? (
           <p className="error-message">{errorMessage}</p>
