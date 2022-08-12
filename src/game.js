@@ -17,14 +17,6 @@ export default function Game({ user }) {
   const [popup, setPopup] = useState("none");
   const [winner, setWinner] = useState("WHO?");
 
-  onAuthStateChanged(auth, (currentUser) => {
-    if (currentUser) {
-      user = currentUser;
-    } else {
-      setPlayerID(null);
-    }
-  });
-
   function getScore() {
     const db = getDatabase();
 
