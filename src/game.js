@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import UserArea from "./userArea";
+
 import { getDatabase, ref, update, onValue } from "firebase/database";
-import { signOut } from "firebase/auth";
 
 import LoaderWrapper from "./loaderwrapper";
-import { auth } from "./firebase";
 
 export default function Game({ user }) {
   const [stateOfGame, setStatofGame] = useState("ON GOING!");
@@ -151,10 +151,6 @@ export default function Game({ user }) {
     }
   }, [playerScore, computerScore]);
 
-  const logout = async () => {
-    await signOut(auth);
-  };
-
   return (
     <>
       <LoaderWrapper>
@@ -162,22 +158,8 @@ export default function Game({ user }) {
       </LoaderWrapper>
       <div className="main">
         <div className="gameboard">
-          <div className="userArea">
-            <div className="user">
-              <div className="avatar">
-                <img
-                  className="avatar__image"
-                  alt="myAvatar"
-                  src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375__340.png"
-                />
-              </div>
-              <p>{user ? user.email.toUpperCase() : "USERNAME?"}</p>
-              <button className="singOut-btn" onClick={logout}>
-                Sign Out
-              </button>
-            </div>
-            <p className="userMessage"> SCORE : {previousScore}</p>
-          </div>
+          <UserArea user={user} previousScore={previousScore} />
+
           <div className="state-Area">
             <p className="game-state">
               {stateOfGame === "ON GOING!"

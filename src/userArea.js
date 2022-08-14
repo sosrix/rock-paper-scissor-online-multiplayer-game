@@ -1,4 +1,11 @@
-export default function userArea({ user }) {
+import { signOut } from "firebase/auth";
+import { auth } from "./firebase";
+
+export default function UserArea({ user, previousScore }) {
+  const logout = async () => {
+    await signOut(auth);
+  };
+
   return (
     <div className="userArea">
       <div className="user">
