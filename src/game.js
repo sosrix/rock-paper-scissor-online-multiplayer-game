@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { getDatabase, ref, update, onValue } from "firebase/database";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 
 import LoaderWrapper from "./loaderwrapper";
 import { auth } from "./firebase";
