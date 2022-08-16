@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import UserArea from "./userArea";
 
 import { getDatabase, ref, update, onValue } from "firebase/database";
-
+import UserArea from "./userArea";
 import LoaderWrapper from "./loaderwrapper";
 
 export default function Game({ user }) {
@@ -26,22 +25,14 @@ export default function Game({ user }) {
       setPreviousScore(snapshot.val());
     });
   }
-  useEffect(() => {
-    getScore();
-
-    console.log("runned getScore");
-  });
 
   function addToScore(playerID, points) {
     const db = getDatabase();
 
-    console.log(previousScore);
-    // A post entry.
     const postData = {
       points: previousScore + points,
     };
     if (postData.points >= 0) {
-      // Write the new post's data simultaneously in the posts list and the user's post list.
       const updates = {};
       updates["/users/" + playerID + "/"] = postData;
 
@@ -63,12 +54,7 @@ export default function Game({ user }) {
     ) {
       setplayerScore((playerScore) => ++playerScore);
       setRoundWinner("YOU!");
-    }
-    if (
-      (computerSelection === "✊" && playerSelection === "✌") ||
-      (computerSelection === "✌" && playerSelection === "✋") ||
-      (computerSelection === "✋" && playerSelection === "✊")
-    ) {
+    } else {
       setComputerScore((computerScore) => ++computerScore);
       setRoundWinner("COMPUTER!");
     }
@@ -150,7 +136,9 @@ export default function Game({ user }) {
       setPopup("block");
     }
   }, [playerScore, computerScore]);
-
+  useEffect(() => {
+    getScore();
+  });
   return (
     <>
       <LoaderWrapper>
